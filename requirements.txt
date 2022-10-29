@@ -1,0 +1,9 @@
+flask
+requests
+pytz
+bson
+pymongo
+dnspython
+markdown
+flask-cors
+PyGithub
