@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <!-- snackbar弹窗 -->
+    <script src="https://cdn.jsdelivr.net/npm/node-snackbar@latest/dist/snackbar.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@latest/dist/snackbar.min.css">
+    <script src="/static/js/main.js"></script>
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+    <script src="/static/js/ribbon.min.js"></script>
+    <div id="menu">
+        <li><a href="#tab2" data-toggle=tab">首页</a></li>
+
+        <li><a href="#tab2" data-toggle=tab">文章</a></li>
+
+        <li><a href="#tab2" data-toggle=tab">友链</a></li>
+
+        <li><a href="#tab2" data-toggle=tab">设置</a></li>
+    </div>
+    <div id="main">
+        {% block main %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+:root {
+    --border-radius: 7px;
+    --buttom-border-radius: 7px;
+    --card-bg: #fff;
+    --card-box-shadow: 0 3px 8px 6px rgba(7, 17, 27, 0.05);
+    --card-hover-box-shadow: 0 3px 8px 6px rgba(7, 17, 27, 0.09);
+    --btn-hover-color: #ff7242;
+    --btn-color: #fff;
+    --btn-bg: #49b1f5;
+}
+
+.card {
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-box-shadow);
+    padding: 20px 24px;
+    background-color: var(--card-bg);
+    /* 变动动画时长 */
+    transition: .3s;
+}
+
+.card:hover {
+    box-shadow: var(--card-hover-box-shadow);
+}
+
+/* a标签 */
+a {
+    text-decoration: none;
+    color: #49b1f5;
+}
+
+body {
+    display: flex;
+    margin: 0;
+}
+
+
+
+.login-box {
+    /*居中排列*/
+    text-align: center;
+    width: 50%;
+}
+
+
+.login-box div {
+    /* width: 100%; */
+    padding-top: 1rem;
+}
+
+.login-box input {
+    padding: 0.25rem;
+}
+
+.login-box button {
+    margin: 1rem;
+    padding: 14px;
+    border-style: none;
+    border-radius: var(--buttom-border-radius);
+    background-color: var(--btn-bg);
+    /* 变动动画时长 */
+    transition: .3s;
+}
+
+.login-box button:hover {
+    background-color: var(--btn-hover-color);
+}
+
+
+/* 导航栏 */
+#menu {
+    width: 30%;
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: var(--card-box-shadow);
+}
+
+#menu li {
+    display: flex;
+}
+
+#menu li a {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-box-shadow);
+    color: black;
+}
+
+#main {
+    display: flex;
+    height: 100vh;
+    right:0px;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    /*在容器中央对齐弹性项目*/
+    height: 100vh;
+}
+
+.snackbar-pos {
+    border-radius: var(--border-radius) !important;/* 弹窗圆角 */
+    }
+.snackbar-container {
+    background: var(--btn-bg) !important;/* 弹窗颜色 */
+}

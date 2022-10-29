@@ -1,0 +1,38 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*在容器中央对齐弹性项目*/
+    height: 100vh;
+    margin: 0;
+}
+
+.login-box {
+    /*居中排列*/
+    text-align: center;
+    width: 50%;
+}
+
+
+.login-box div {
+    /* width: 100%; */
+    padding-top: 1rem;
+}
+
+.login-box input {
+    padding: 0.25rem;
+}
+
+.login-box button {
+    margin: 1rem;
+    padding: 14px;
+    border-style: none;
+    border-radius: var(--buttom-border-radius);
+    background-color: var(--btn-bg);
+    /* 变动动画时长 */
+    transition: .3s;
+}
+
+.login-box button:hover {
+    background-color: var(--btn-hover-color);
+}

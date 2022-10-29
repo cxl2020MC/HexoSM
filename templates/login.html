@@ -1,0 +1,19 @@
+{% extends "main_tp.html" %}
+{% block main %}
+        <div class="card login-box">
+            <h1>登录 - Hexo管理面板</h1>
+
+            <div>
+                <div>
+                    <label>账号</label>
+                    <input type="text" name="username" id="username">
+                </div>
+                <div>
+                    <label>密码</label>
+                    <input type="password" name="password" id="password">
+                </div>
+                <!-- <button type="submit" id="">登录</button> -->
+                <button id="" onclick="javascript:up_login_data()">登录</button>
+            </div>
+        </div>
+{% endblock %}
