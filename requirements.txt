@@ -7,3 +7,4 @@ dnspython
 markdown
 flask-cors
 PyGithub
+Flask-Limiter

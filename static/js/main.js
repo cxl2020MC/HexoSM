@@ -25,5 +25,5 @@ async function up_login_data() {
     });
     data = await data.json()
     console.log(data)
-    Snackbarshow(data["data"]["msg"])
+    Snackbarshow(data["msg"])
 };

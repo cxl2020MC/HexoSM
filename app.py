@@ -5,6 +5,7 @@ import traceback
 
 app = Flask(__name__)
 cors = CORS(app, origins="*", supports_credentials=True)
+limiter = Limiter(app, key_func = get_remote_address)
 app.config["JSON_AS_ASCII"] = False
 app.config['SECRET_KEY'] = 'hexosmcodebycxl2020mc'
 app.debug = True
