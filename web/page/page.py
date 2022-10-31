@@ -7,6 +7,7 @@ bp = Blueprint('page', __name__)
 def index():
     if not session.get("login"):
         return redirect("/login/")
+    return render_template("Dashboard.html")
 
 @bp.route('/login/')
 def login():
