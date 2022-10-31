@@ -11,7 +11,7 @@ def login():
     login = False
     if os.getenv("LOGINUSERNAME") != data.get("username"):
         msg = "用户名错误"
-    if os.getenv("LOGINPASSWORD") != data.get("password"):
+    elif os.getenv("LOGINPASSWORD") != data.get("password"):
         msg = "密码错误"
     else:
         msg = "登录成功，等待转跳。"
