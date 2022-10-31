@@ -12,8 +12,8 @@ function Snackbarshow(text){
 };
 
 async function up_login_data() {
-    var username = document.getElementById("username").innerHTML;
-    var password = document.getElementById("password").innerHTML;
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
     let data = await fetch("/api/login/", {
         method: "post",
         headers: {
