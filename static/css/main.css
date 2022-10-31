@@ -9,6 +9,7 @@
     --btn-bg: #49b1f5;
 }
 
+/* 全局卡片样式 */
 .card {
     border-radius: var(--border-radius);
     box-shadow: var(--card-box-shadow);
@@ -34,7 +35,7 @@ body {
 }
 
 
-
+/* 登录 */
 .login-box {
     /*居中排列*/
     text-align: center;
@@ -85,6 +86,7 @@ body {
     border-radius: var(--border-radius);
     box-shadow: var(--card-box-shadow);
     color: black;
+    text-align: center;
 }
 
 #main {
