@@ -23,7 +23,10 @@ async function up_login_data() {
             'password': password
         })
     });
-    data = await data.json()
-    console.log(data)
-    Snackbarshow(data["msg"])
+    data = await data.json();
+    console.log(data);
+    Snackbarshow(data["msg"]);
+    if (data["login"]) {
+        location.assign("/")
+    };
 };
