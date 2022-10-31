@@ -27,6 +27,6 @@ async function up_login_data() {
     console.log(data);
     Snackbarshow(data["msg"]);
     if (data["login"]) {
-        location.assign("/")
+        location.assign("/");
     };
 };
