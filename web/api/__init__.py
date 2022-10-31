@@ -5,7 +5,7 @@ import os
 bp = Blueprint('api', __name__)
 
 @bp.route('/api/login/', methods = ["POST"])
-def login(data):
+def login():
     data = request.json
     print(data)
     login = False
