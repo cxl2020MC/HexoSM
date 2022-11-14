@@ -53,14 +53,16 @@ body {
     border-style: solid;
     border-color: #dee2e6;
     border-width: 1px;
+    display: flex;
 }
 
 .login-box div label {
-    border-radius: var(--buttom-border-radius);
-    border-style: solid;
-    border-color: #dee2e6;
-    border-width: 1px;
-    padding: 0.625rem 0.75rem;;
+    margin-right: -1px;
+    text-align: center;
+}
+
+.login-box div input {
+    flex: 1;
 }
 
 .输入框 {
@@ -69,11 +71,10 @@ body {
     border-color: #dee2e6;
     border-width: 1px;
     padding: 0.625rem 0.75rem;;
-    font-size: 1rem;
 }
 
 .按钮 {
-    padding: 0.625rem 1.25rem;
+    padding: 1rem 1.25rem; /* 0.625rem 1.25rem; */
     margin: 1rem;
     border-style: none;
     border-radius: var(--buttom-border-radius);
