@@ -60,6 +60,8 @@ body {
 .login-box div label {
     margin-right: -1px;
     text-align: center;
+    padding: 0.625rem 0.75rem;
+    color: #8898aa;
 }
 
 .login-box div input {
@@ -67,6 +69,7 @@ body {
     border-style: none;
     border-width: 0;
     color: #8898aa;
+    padding: 0.625rem 0.75rem;
 }
 
 .输入框 {
