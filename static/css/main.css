@@ -63,6 +63,7 @@ body {
 
 .login-box div input {
     flex: 1;
+    border-style: 0;
 }
 
 .输入框 {
