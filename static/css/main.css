@@ -48,14 +48,17 @@ body {
     padding-top: 1rem;
 }
 
-.login-box input {
-    padding: 0.25rem;
-    background-color: -internal-light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+.输入框 {
+    border-radius: var(--buttom-border-radius);
+    border-style: solid;
+    border-color: #dee2e6;
+    border-width: 1px;
+    padding: 0.625rem 0.75rem;;
 }
 
-.login-box button {
+.按钮 {
+    padding: 0.625rem 1.25rem;
     margin: 1rem;
-    padding: 14px;
     border-style: none;
     border-radius: var(--buttom-border-radius);
     background-color: var(--btn-bg);
@@ -63,16 +66,8 @@ body {
     transition: .3s;
 }
 
-.login-box button:hover {
+.按钮:hover {
     background-color: var(--btn-hover-color);
-}
-
-.输入框 {
-    border-radius: var(--buttom-border-radius);
-    border-style: solid;
-    border-color: #dee2e6;
-    border-width: 1px;
-    padding: 0.625rem 0.75rem;;
 }
 
 /* 导航栏 */
