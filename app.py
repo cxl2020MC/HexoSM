@@ -6,8 +6,6 @@ import traceback
 app = Flask(__name__)
 cors = CORS(app, origins="*", supports_credentials=True)
 app.config["JSON_AS_ASCII"] = False
-app.config['SECRET_KEY'] = 'hexosmcodebycxl2020mc'
-app.debug = True
 
 from web.page import page
 from web.api import main as api_bp
