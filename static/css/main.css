@@ -72,6 +72,7 @@ body {
     border-style: solid;
     border-color: #dee2e6;
     border-width: 1px;
+    margin: 0.5rem;
 }
 
 /* 导航栏 */
