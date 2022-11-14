@@ -1,5 +1,5 @@
 from crypt import methods
-from flask import Blueprint, request, jsonify, session, redirect, render_template
+from flask import Blueprint, request, jsonify, session # , redirect, render_template
 import os
 
 bp = Blueprint('api', __name__)

@@ -68,18 +68,18 @@ body {
 
 
 /* 导航栏 */
-#menu {
+#右侧菜单栏 {
     width: 30%;
     height: 100vh;
     background-color: #fff;
     box-shadow: var(--card-box-shadow);
 }
 
-#menu li {
+#右侧菜单栏 li {
     display: flex;
 }
 
-#menu li a {
+#右侧菜单栏 li a {
     width: 100%;
     padding: 0.5rem;
     margin: 0.5rem;
