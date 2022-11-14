@@ -1,14 +1,18 @@
 import pymongo
 import os
 
-# try:
 modburl = os.getenv('MONGODB_URL')
-print('连接数据库:'+modburl)
+if modburl == None:
+    print("未设置'MONGODB_URL'环境变量")
+else:
+    print('连接数据库:'+modburl)
 
+if modburl != None:
+    client = pymongo.MongoClient(modburl)
 
-client = pymongo.MongoClient(modburl)
-
-db = client['test']
+    db = client['test']
+else:
+    db = None
 
 if __name__ == '__main__':
     import time

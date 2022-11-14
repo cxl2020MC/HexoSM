@@ -45,11 +45,14 @@ body {
 
 .login-box div {
     margin-top: 1rem;
+}
+
+.login-box>div>div {
+    margin-top: 1rem;
     border-radius: var(--buttom-border-radius);
     border-style: solid;
     border-color: #dee2e6;
     border-width: 1px;
-    padding: 0.625rem 0.75rem;;
 }
 
 .login-box div label {
@@ -66,6 +69,7 @@ body {
     border-color: #dee2e6;
     border-width: 1px;
     padding: 0.625rem 0.75rem;;
+    font-size: 1rem;
 }
 
 .按钮 {

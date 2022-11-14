@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, session # , redirect, render_template
 import os
+from db import db
 
 bp = Blueprint('api', __name__)
 
