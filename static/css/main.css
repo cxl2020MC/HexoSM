@@ -54,6 +54,7 @@ body {
     border-color: #dee2e6;
     border-width: 1px;
     display: flex;
+    justify-content: center;
 }
 
 .login-box div label {
@@ -64,6 +65,8 @@ body {
 .login-box div input {
     flex: 1;
     border-style: none;
+    border-width: 0;
+    color: #8898aa;
 }
 
 .输入框 {
