@@ -10,10 +10,10 @@ app.config['SECRET_KEY'] = 'hexosmcodebycxl2020mc'
 app.debug = True
 
 from web.page import page
-import web.api
+from web.api import main as api_bp
 
 app.register_blueprint(page.bp)
-app.register_blueprint(web.api.bp)
+app.register_blueprint(api_bp.bp)
 
 
 @app.errorhandler(400)
