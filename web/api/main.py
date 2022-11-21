@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify, session # , redirect, render_template
 import os
 from db import db
+from .装饰器 import 注册api
 
 bp = Blueprint('api', __name__)
 
 @bp.route('/api/login/', methods = ["POST"])
+@注册api(需要登录 = False)
 def login():
     data = request.json
     print(data)
@@ -17,7 +19,7 @@ def login():
         msg = "登录成功，等待转跳。"
         login = True
         session["login"] = True
-    return {"ok": True, "msg": msg, "login": login}
+    return {"login": login, "msg": msg}
 
 @bp.route('/api/<apiname>/', methods = ["POST"])
 def index(apiname):

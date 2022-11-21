@@ -2,7 +2,6 @@ from flask import Flask,  request, jsonify
 from flask_cors import CORS
 import os
 # from api import main
-import traceback
 
 app = Flask(__name__)
 cors = CORS(app, origins="*", supports_credentials=True)

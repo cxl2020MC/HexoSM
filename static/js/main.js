@@ -25,8 +25,8 @@ async function up_login_data() {
     });
     data = await data.json();
     console.log(data);
-    Snackbarshow(data["msg"]);
-    if (data["login"]) {
+    Snackbarshow(data["data"]["msg"]);
+    if (data["data"]["login"]) {
         location.assign("/");
     };
 };
