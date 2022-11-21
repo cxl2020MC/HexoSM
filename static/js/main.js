@@ -23,6 +23,11 @@ async function post_api(url, body) {
     return data;
 }
 
+//保活vercel
+setInterval(function () {
+    post_api("/api/check_login/", {"ok": "true"})
+}, 1000*30)
+
 async function up_login_data() {
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;

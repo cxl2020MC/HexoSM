@@ -21,3 +21,7 @@ def login():
         session["login"] = True
     return {"login": login, "msg": msg}
 
+@bp.route('/api/check_login/', methods = ["POST"])
+@注册api(需要登录 = False)
+def check_login():
+    pass
