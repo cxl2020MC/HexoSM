@@ -7,8 +7,6 @@ def 注册api(需要登录=True):
 
     def decoractor(f):
         def main(*args, **kwargs):
-            # 重命名函数名为方法名
-            main.__name__ = f.__name__
             if 需要登录:
                 if session.get("login"):
                     print("用户已登录")
@@ -30,5 +28,7 @@ def 注册api(需要登录=True):
 {e.__class__}: {e}
 详情请查看函数运行日志'''
             return jsonify(retdata)
+        # 重命名函数名为方法名
+        main.__name__ = f.__name__
         return main
     return decoractor
