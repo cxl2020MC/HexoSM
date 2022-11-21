@@ -21,12 +21,3 @@ def login():
         session["login"] = True
     return {"login": login, "msg": msg}
 
-@bp.route('/api/<apiname>/', methods = ["POST"])
-def index(apiname):
-    data = request.json
-    print(data)
-    if apiname == "xxx":
-        retdata = login(data)
-    else:
-        return jsonify({"ok": False, "msg": "404错误: 在请求的服务器上找不到请求的URL", "data": None})
-    return jsonify({"ok": True, "msg": "ok", "data": retdata})
