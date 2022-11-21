@@ -11,20 +11,26 @@ function Snackbarshow(text){
     );
 };
 
-async function up_login_data() {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-    let data = await fetch("/api/login/", {
+async function post_api(url, body) {
+    let data = await fetch(url, {
         method: "post",
         headers: {
             'Content-Type': 'application/json'
-        }, body: JSON.stringify({
-            'username': username,
-            'password': password
-        })
+        }, body: JSON.stringify(body)
     });
     data = await data.json();
     console.log(data);
+    return data;
+}
+
+async function up_login_data() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    var post_data = {
+        'username': username,
+        'password': password
+    }
+    var data = await post_api("/api/login/", post_data)
     Snackbarshow(data["data"]["msg"]);
     if (data["data"]["login"]) {
         location.assign("/");
