@@ -7,12 +7,9 @@ if modburl == None:
 else:
     print('连接数据库:'+modburl)
 
-if modburl != None:
-    client = pymongo.MongoClient(modburl)
+client = pymongo.MongoClient(modburl)
 
-    db = client['test']
-else:
-    db = None
+db = client['test']
 
 if __name__ == '__main__':
     import time
