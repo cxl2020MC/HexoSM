@@ -24,4 +24,4 @@ def login():
 @bp.route('/api/check_login/', methods = ["POST"])
 @注册api(需要登录 = False)
 def check_login():
-    pass
+    return None
