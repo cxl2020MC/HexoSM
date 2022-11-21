@@ -16,7 +16,9 @@ def 注册api(需要登录=True):
                     retdata["msg"] = "您未登录"
                     return jsonify(retdata)
             try:
-                retdata["data"] = f(*args, **kwargs)
+                方法返回数据 = f(*args, **kwargs)
+                retdata["data"] = 方法返回数据
+                print(f"方法返回数据: {方法返回数据}")
             except Exception as e:
                 # print(e)
                 错误信息 = traceback.format_exc()
