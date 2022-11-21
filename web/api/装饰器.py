@@ -28,5 +28,7 @@ def 注册api(需要登录=True):
 {e.__class__}: {e}
 详情请查看函数运行日志'''
             return jsonify(retdata)
+        # 重命名函数名为方法名
+        decoractor.func_name = f.func_name
         return main
     return decoractor
