@@ -1,11 +1,13 @@
 from flask import Flask,  request, jsonify
 from flask_cors import CORS
+import os
 # from api import main
 import traceback
 
 app = Flask(__name__)
 cors = CORS(app, origins="*", supports_credentials=True)
 app.config["JSON_AS_ASCII"] = False
+app.config["SECRET_KEY"] = os.getenv("SECRETKEY", "Hexosm power by cxl2020mc")
 
 from web.page import page
 from web.api import main as api_bp
@@ -14,7 +16,7 @@ app.register_blueprint(page.bp)
 app.register_blueprint(api_bp.bp)
 
 
-@app.errorhandler(400)
+@app.errorhandler(500)
 def server_error(e):
     return jsonify({"ok": False, "msg": f"{e.__class__}: {e}", "data": None})
 
