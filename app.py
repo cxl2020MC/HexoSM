@@ -1,4 +1,4 @@
-from flask import Flask,  request, jsonify
+from flask import Flask, jsonify, send_file # , request
 from flask_cors import CORS
 import os
 # from api import main
@@ -14,6 +14,9 @@ from web.api import main as api_bp
 app.register_blueprint(page.bp)
 app.register_blueprint(api_bp.bp)
 
+@app.route("/sw.js")
+def retsw():
+    return send_file("sw.js")
 
 @app.errorhandler(500)
 def server_error(e):

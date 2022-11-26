@@ -7,7 +7,7 @@
         ;(function () {
           if (navigator.serviceWorker) {
             navigator.serviceWorker
-              .register('/static/sw.js', { scope: '/' })
+              .register('/sw.js', { scope: '/' })
               .then((result) => {
                 // 判断是否安装了sw
                 if (localStorage.getItem('installSW')) return
