@@ -1,35 +1,5 @@
 //importScripts('https://jsd.cxl2020mc.top/npm/clientworker@latest')
 
-const origin = ['https://blog.imlete.cn', 'https://lete114.github.io']
-
-const cdn = {
-    gh: {
-        jsdelivr: 'https://cdn.jsdelivr.net/gh',
-        fastly: 'https://fastly.jsdelivr.net/gh',
-        gcore: 'https://gcore.jsdelivr.net/gh',
-        testingcf: 'https://testingcf.jsdelivr.net/gh',
-        test1: 'https://test1.jsdelivr.net/gh',
-        tianli: 'https://cdn1.tianli0.top/gh'
-    },
-    combine: {
-        jsdelivr: 'https://cdn.jsdelivr.net/combine',
-        fastly: 'https://fastly.jsdelivr.net/combine',
-        gcore: 'https://gcore.jsdelivr.net/combine',
-        testingcf: 'https://testingcf.jsdelivr.net/combine',
-        test1: 'https://test1.jsdelivr.net/combine',
-        tianli: 'https://cdn1.tianli0.top/combine'
-    },
-    npm: {
-        jsdelivr: 'https://cdn.jsdelivr.net/npm',
-        fastly: 'https://fastly.jsdelivr.net/npm',
-        gcore: 'https://gcore.jsdelivr.net/npm',
-        testingcf: 'https://testingcf.jsdelivr.net/npm',
-        test1: 'https://test1.jsdelivr.net/npm',
-        unpkg: 'https://unpkg.com',
-        tianli: 'https://cdn1.tianli0.top/npm'
-    }
-}
-
 const config = [
     {
         rule: '^https\:\/\/((cdn|fastly|gcore|test1|quantil)\.jsdelivr\.net\/npm|jsd\.cxl2020mc\.top\/npm|unpkg\.com)',
@@ -87,7 +57,8 @@ function handleRequest(req) {
     // 请求url的数组
     const urls = []
     const urlStr = req.url
-    // let urlObj = new URL(urlStr)
+    console.debug(`[SW] 处理请求 ${urlStr}`)
+    let urlObj = new URL(urlStr)
 
     // 匹配请求
     for (const one_config in config) {
@@ -100,9 +71,10 @@ function handleRequest(req) {
         }
     }
 
-    // 如果上方遍历 匹配到则直接统一发送请求(不会往下执行了)
+    // 如果上方遍历匹配到则直接统一发送请求(不会往下执行了)
     if (urls.length) return fetchAny(urls)
 
+    // 抛出异常是为了让sw不拦截请求
     throw new Error('不是要匹配的请求')
 
     // 为了获取 cdn 类型
@@ -173,6 +145,9 @@ function fetchAny(urls) {
 
     // 遍历将所有的请求地址转换为promise
     const PromiseAll = urls.map((url) => {
+        // Promise的构造函数接收两个参数：resolve和reject（可以省略）。
+        // 其中resolve是用来标记代码执行成功的，用法为resolve(args)，
+        // 传进去的参数我们后面再说。相反，reject就是用来标记代码执行错误，用法为reject(args)。
         return new Promise((resolve, reject) => {
             fetch(url, { signal })
                 // 返回响应
