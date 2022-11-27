@@ -59,8 +59,8 @@ async function progress(res) {
 // 处理请求
 function handleRequest(req) {
     // 请求url的数组
-    const urls = []
-    const urlStr = req.url
+    const urls = [];
+    const urlStr = req.url;
     // console.debug(`[SW] 处理请求 ${urlStr}`)
     // let urlObj = new URL(urlStr)
 
@@ -70,18 +70,18 @@ function handleRequest(req) {
         if (urlStr.search(one_config.rule) != -1) {
             for (const replaceurl in one_config.replaceurls) {
                 // 替换url
-                const url = replace(urlStr, replaceurl)
+                const url = replace(urlStr, replaceurl);
                 // 把替换成的url加入进数组
-                urls.push(url)
-            }
-        }
-    }
+                urls.push(url);
+            };
+        };
+    };
 
     // 如果上方遍历匹配到则直接统一发送请求(不会往下执行了)
-    if (urls.length) return fetchAny(urls)
+    if (urls.length) return fetchAny(urls);
 
     // 让sw不拦截请求
-    return null
+    return null;
 
     // 抛出异常是为了让sw不拦截请求
     // throw new Error('不是要匹配的请求')
@@ -116,7 +116,7 @@ function handleRequest(req) {
     }
     // 抛出异常是为了让sw不拦截请求
     throw new Error('不是源站')
-}
+};
 
 // Promise.any 的 polyfill
 // 如果因为浏览器太过老旧，不支持最新的 Promise.allSettled API，
