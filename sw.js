@@ -68,7 +68,7 @@ function handleRequest(req) {
     for (const one_config in config) {
         // 正则匹配url
         if (urlStr.search(one_config.rule) != -1) {
-            for (const replaceurl in one_config.replaceurls()) {
+            for (const replaceurl in one_config.replaceurls) {
                 // 替换url
                 const url = replace(urlStr, replaceurl)
                 // 把替换成的url加入进数组
