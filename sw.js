@@ -3,7 +3,7 @@
 const config = [
     {
         rule: '^https\:\/\/((cdn|fastly|gcore|test1|quantil)\.jsdelivr\.net\/npm|jsd\.cxl2020mc\.top\/npm|unpkg\.com)',
-        replace: [
+        replaceurls: [
             'https://jsd.cxl2020mc.top/npm',
             'https://vercel.jsd.cxl2020mc.top/npm',
             'https://jsdcxl2020mc.domain.qystu.cc/npm',
@@ -39,9 +39,13 @@ self.addEventListener('activate', async () => {
 
 // 捕获请求
 self.addEventListener('fetch', async (event) => {
-    try {
-        event.respondWith(handleRequest(event.request));
-    } catch (e) { };
+    //try {
+        //event.respondWith(handleRequest(event.request));
+    //} catch (e) { };
+    const request = handleRequest(event.request);
+    if (request) {
+        event.respondWith(request);
+    };
 });
 
 // 返回响应
@@ -57,25 +61,30 @@ function handleRequest(req) {
     // 请求url的数组
     const urls = []
     const urlStr = req.url
-    console.debug(`[SW] 处理请求 ${urlStr}`)
-    let urlObj = new URL(urlStr)
+    // console.debug(`[SW] 处理请求 ${urlStr}`)
+    // let urlObj = new URL(urlStr)
 
     // 匹配请求
     for (const one_config in config) {
         // 正则匹配url
         if (urlStr.search(one_config.rule) != -1) {
-            // 替换url
-            const url = replace(urlStr, one_config.rule)
-            // 把替换成的url加入进数组
-            urls.push(url)
+            for (const replaceurl in one_config.replaceurls()) {
+                // 替换url
+                const url = replace(urlStr, replaceurl)
+                // 把替换成的url加入进数组
+                urls.push(url)
+            }
         }
     }
 
     // 如果上方遍历匹配到则直接统一发送请求(不会往下执行了)
     if (urls.length) return fetchAny(urls)
 
+    // 让sw不拦截请求
+    return null
+
     // 抛出异常是为了让sw不拦截请求
-    throw new Error('不是要匹配的请求')
+    // throw new Error('不是要匹配的请求')
 
     // 为了获取 cdn 类型
     // 例如获取gh (https://cdn.jsdelivr.net/gh)
