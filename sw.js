@@ -1,48 +1,52 @@
 //importScripts('https://jsd.cxl2020mc.top/npm/clientworker@latest')
 
-const config = [
+const 全局配置 = [
     {
-        rule: '^https\:\/\/((cdn|fastly|gcore|test1|quantil)\.jsdelivr\.net\/npm|jsd\.cxl2020mc\.top\/npm|unpkg\.com)',
-        replaceurls: [
-            'https://jsd.cxl2020mc.top/npm',
-            'https://vercel.jsd.cxl2020mc.top/npm',
-            'https://jsdcxl2020mc.domain.qystu.cc/npm',
-            'https://unpkg.cnortles.top',
-            'https://cdn.cnortles.top/npm',
-            'https://project.cnortles.top/proxy/jsdelivr/npm',
-            'https://jsdelivr.pai233.top/npm',
-            'https://cdn.jsdelivr.net/npm',
-            'https://cdn3.tianli0.top/npm',
-            'https://jsd.cky.codes/npm',
-            'https://unpkg.com',
-            '_'
+        'rule': /^https\:\/\/((cdn|fastly|gcore|test1|quantil)\.jsdelivr\.net\/npm|jsd\.cxl2020mc\.top\/npm|unpkg\.com)/,
+        'transform_rules': [
+            {
+                'search': '_',
+                'replace': [
+                    'https://jsd.cxl2020mc.top/npm',
+                    'https://vercel.jsd.cxl2020mc.top/npm',
+                    'https://jsdcxl2020mc.domain.qystu.cc/npm',
+                    'https://unpkg.cnortles.top',
+                    'https://cdn.cnortles.top/npm',
+                    'https://project.cnortles.top/proxy/jsdelivr/npm',
+                    'https://jsdelivr.pai233.top/npm',
+                    'https://cdn.jsdelivr.net/npm',
+                    'https://cdn3.tianli0.top/npm',
+                    'https://jsd.cky.codes/npm',
+                    'https://unpkg.com',
+                    '_'
+                ],
+            },
         ],
-        statuscode: 200
-    }
-]
+    },
+];
 
 //安装进程
 // 在sw中可以使用this或是self表示自身
 self.addEventListener('install', async () => {
+    console.log('[SW] 开始安装!');
     // 跳过等待
     await self.skipWaiting();
-    console.log('[SW] 注册成功!');
+    console.log('[SW] 安装成功!');
 });
 
 self.addEventListener('activate', async () => {
     console.log('[SW] 激活成功!')
     // 立即管理页面
     await self.clients.claim();
-    console.log('[SW] 安装成功!立即管理请求!')
+    console.log('[SW] 立即管理请求!')
 });
 
 
 // 捕获请求
 self.addEventListener('fetch', async (event) => {
-    //try {
-        //event.respondWith(handleRequest(event.request));
-    //} catch (e) { };
     const request = handleRequest(event.request);
+    // 如果有返回，就返回请求
+    // 如果没有返回就什么也不做
     if (request) {
         event.respondWith(request);
     };
@@ -61,90 +65,38 @@ function handleRequest(req) {
     // 请求url的数组
     const urls = [];
     const urlStr = req.url;
-    // console.debug(`[SW] 处理请求 ${urlStr}`)
     // let urlObj = new URL(urlStr)
 
     // 匹配请求
-    for (const one_config in config) {
+    // 遍历配置
+    全局配置.map((config) => {
         // 正则匹配url
-        if (urlStr.search(one_config.rule) != -1) {
-            for (const replaceurl in one_config.replaceurls) {
+        if (config['rule'].test(urlStr)) {
+            config['transform_rules'].map((transform_rule) => {
+                if (transform_rule['search'] == '_') {
+                    transform_rule['search'] = config['rule'];
+                };
+                transform_rule['replace'].map((replace) => {
                 // 替换url
-                const url = replace(urlStr, replaceurl);
-                // 把替换成的url加入进数组
-                urls.push(url);
-            };
+                    if (replace == '_') {
+                        replace = urlStr;
+                    };
+                    // 把替换成的url加入进数组
+                    urls.push(urlStr.replace(transform_rule['search'], replace));
+                });
+            });
         };
-    };
+    });
 
-    // 如果上方遍历匹配到则直接统一发送请求(不会往下执行了)
-    if (urls.length) return fetchAny(urls);
-
-    // 让sw不拦截请求
-    return null;
-
-    // 抛出异常是为了让sw不拦截请求
-    // throw new Error('不是要匹配的请求')
-
-    // 为了获取 cdn 类型
-    // 例如获取gh (https://cdn.jsdelivr.net/gh)
-    const path = urlObj.pathname.split('/')[1]
-
-    // 匹配 cdn
-    for (const type in cdn) {
-        if (type === path) {
-            for (const key in cdn[type]) {
-                const url = cdn[type][key] + urlObj.pathname.replace('/' + path, '')
-                urls.push(url)
-            }
-        }
-    }
-    
     // 如果上方 cdn 遍历 匹配到 cdn 则直接统一发送请求(不会往下执行了)
     if (urls.length) return fetchAny(urls)
 
-    // 将用户访问的当前网站与所有源站合并
-    let origins = [...new Set([location.origin, ...origin])]
+    console.debug(`[SW] 请求 ${urlStr} 没有匹配到任何规则，跳过此次请求。`);
 
-    // 遍历判断当前请求是否是源站主机
-    const is = origins.find((i) => new URL(urlStr).hostname === new URL(i).hostname)
-
-    // 如果是源站，则竞速获取(不会往下执行了)
-    if (is) {
-        origins = origins.map((i) => i + urlObj.pathname + urlObj.search)
-        return fetchAny(origins)
-    }
-    // 抛出异常是为了让sw不拦截请求
-    throw new Error('不是源站')
+    // 让sw不拦截请求, 有没有无所谓。
+    return null;
 };
 
-// Promise.any 的 polyfill
-// 如果因为浏览器太过老旧，不支持最新的 Promise.allSettled API，
-// 我们可以使用 polyfill 技术，简单地自己用 Promise.all, 
-// 自行实现 Promise.allSettled.
-// https://maimai.cn/article/detail?fid=1746477129&efid=-D_X-EidD9QbFy972FBXAw
-// 注释 by cxl2020mc（其实其他地方也有好多）
-function createPromiseAny() {
-    Promise.any = function (promises) {
-        return new Promise((resolve, reject) => {
-            promises = Array.isArray(promises) ? promises : []
-            let len = promises.length
-            let errs = []
-            if (len === 0) return reject(new AggregateError('All promises were rejected'))
-            promises.forEach((p) => {
-                if (!p instanceof Promise) return reject(p)
-                p.then(
-                    (res) => resolve(res),
-                    (err) => {
-                        len--
-                        errs.push(err)
-                        if (len === 0) reject(new AggregateError(errs))
-                    }
-                )
-            })
-        })
-    }
-}
 
 // 发送所有请求
 function fetchAny(urls) {
@@ -168,16 +120,16 @@ function fetchAny(urls) {
                     controller.abort() // 中断
                     resolve(r)
                 })
-                .catch(() => reject(null))
+                .catch(() => reject(null));
         })
     })
 
     // 判断浏览器是否支持 Promise.any
     // 如果不支持就执行上面的方法
-    if (!Promise.any) createPromiseAny()
+    // if (!Promise.any) createPromiseAny()
 
     // 谁先返回"成功状态"则返回谁的内容，如果都返回"失败状态"则返回null
     return Promise.any(PromiseAll)
         .then((res) => res)
-        .catch(() => null)
-}
+        .catch(() => null);
+};

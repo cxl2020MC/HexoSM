@@ -3,60 +3,76 @@
 
 <head>
 
-    <script>
-        ;(function () {
-          if (navigator.serviceWorker) {
-            navigator.serviceWorker
-              .register('/sw.js', { scope: '/' })
-              .then((result) => {
-                // 判断是否安装了sw
-                if (localStorage.getItem('installSW')) return
-                localStorage.setItem('installSW', true)
-                // 这里就不用清理setInterval了，因为页面刷新后就没有了
-                const timer = setInterval(() => {
-                  // 判断sw安装后，是否处于激活状态，激活后刷新页面
-                  if (result.active.state === 'activated') {
-                    clearInterval(timer)
-                    fetch(window.location.href)
-                      .then((res) => res.text())
-                      .then((text) => {
-                        location.reload();
-                      })
-                  }
-                }, 100)
-              })
-              .catch(console.log)
-          }
-        })();
-      </script>
+  <script>
+    // 判断是否支持SW
+    if (navigator.serviceWorker) {
+      // 判断浏览器是否支持 Promise.any
+      if (Promise.any) {
+        // 注册SW
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((result) => {
 
-    <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@latest/pace-theme-default.min.css">
-    <link rel="stylesheet" href="/static/css/main.css">
-    <!-- snackbar弹窗 -->
-    <script src="https://cdn.jsdelivr.net/npm/node-snackbar@latest/dist/snackbar.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@latest/dist/snackbar.min.css">
-    <script src="/static/js/main.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    {% block head %}
-    {% endblock %}
+            // 自动更新SW
+            setInterval(function () {
+              result.update();
+              console.log(`[SW] 正在检查并更新SW`);
+            }, 1000 * 60 * 5);
+
+            // 判断是否安装了sw
+            if (localStorage.getItem('installSW')) return
+            localStorage.setItem('installSW', true);
+            // 刷新部分
+            // ------------------------
+            // 计时器
+            const timer = setInterval(() => {
+              // 判断sw安装后，是否处于激活状态，激活后刷新页面
+              if (result.active.state === 'activated') {
+                // 清理计时器
+                clearInterval(timer);
+                // 刷新页面
+                location.reload();
+              }
+            }, 100)
+            // ------------------------
+          })
+          .catch((e) => { console.error(`[SW] 安装失败: ${e}`) });
+      } else {
+        console.error(`[SW] 安装失败: 浏览器不支持Promise.any`);
+      }
+    } else {
+      console.error(`[SW] 安装失败: 浏览器不支持Service Worker`);
+    };
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@latest/pace-theme-default.min.css">
+  <link rel="stylesheet" href="/static/css/main.css">
+  <!-- snackbar弹窗 -->
+  <script src="https://cdn.jsdelivr.net/npm/node-snackbar@latest/dist/snackbar.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@latest/dist/snackbar.min.css">
+  <script src="/static/js/main.js"></script>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  {% block head %}
+  {% endblock %}
 </head>
 
 <body>
-    <script src="/static/js/ribbon.min.js"></script>
-    <div id="右侧菜单栏">
-        <li><a href="#tab2" data-toggle=tab">首页</a></li>
+  <script src="/static/js/ribbon.min.js"></script>
+  <div id="右侧菜单栏">
+    <li><a href="#tab2" data-toggle=tab">首页</a></li>
 
-        <li><a href="#tab2" data-toggle=tab">文章</a></li>
+    <li><a href="#tab2" data-toggle=tab">文章</a></li>
 
-        <li><a href="#tab2" data-toggle=tab">友链</a></li>
+    <li><a href="#tab2" data-toggle=tab">友链</a></li>
 
-        <li><a href="#tab2" data-toggle=tab">设置</a></li>
-    </div>
-    <div id="main">
-        {% block main %}
-        {% endblock %}
-    </div>
+    <li><a href="#tab2" data-toggle=tab">设置</a></li>
+  </div>
+  <div id="main">
+    {% block main %}
+    {% endblock %}
+  </div>
 </body>
 
 </html>
