@@ -18,23 +18,63 @@ const 全局配置 = [
                     'https://cdn3.tianli0.top/npm',
                     'https://jsd.cky.codes/npm',
                     'https://unpkg.com',
-                    '_'
+                    '_',
                 ],
             },
         ],
     },
 ];
 
+const configs = {
+    'cdn': [
+        {
+            'rule': /^https\:\/\/((cdn|fastly|gcore|test1|quantil)\.jsdelivr\.net\/npm|jsd\.cxl2020mc\.top\/npm|unpkg\.com)/,
+            'search': '_',
+            'replace': [
+                'https://jsd.cxl2020mc.top/npm',
+                'https://vercel.jsd.cxl2020mc.top/npm',
+                'https://jsdcxl2020mc.domain.qystu.cc/npm',
+                'https://unpkg.cnortles.top',
+                'https://cdn.cnortles.top/npm',
+                'https://project.cnortles.top/proxy/jsdelivr/npm',
+                'https://jsdelivr.pai233.top/npm',
+                'https://cdn.jsdelivr.net/npm',
+                'https://cdn3.tianli0.top/npm',
+                'https://jsd.cky.codes/npm',
+                'https://unpkg.com',
+                '_',
+            ],
+        },
+        {
+            'rule': /^https\:\/\/((cdn|fastly|gcore|test1|quantil)\.jsdelivr\.net\/gh|jsd\.cxl2020mc\.top\/gh)/,
+            'search': '_',
+            'replace': [
+                'https://jsd.cxl2020mc.top/gh',
+                'https://vercel.jsd.cxl2020mc.top/gh',
+                'https://jsdcxl2020mc.domain.qystu.cc/gh',
+                'https://cdn.cnortles.top/gh',
+                'https://project.cnortles.top/proxy/jsdelivr/gh',
+                'https://jsdelivr.pai233.top/gh',
+                'https://cdn.jsdelivr.net/gh',
+                'https://cdn3.tianli0.top/gh',
+                'https://jsd.cky.codes/gh',
+                '_',
+            ],
+        },
+    ],
+}
+
 //安装进程
 // 在sw中可以使用this或是self表示自身
 self.addEventListener('install', async () => {
-    console.log('[SW] 开始安装!');
+    console.log('[SW] 注册成功!');
     // 跳过等待
     await self.skipWaiting();
-    console.log('[SW] 安装成功!');
 });
 
 self.addEventListener('activate', async () => {
+    console.log('[SW] 跳过等待!')
+    await self.skipWaiting();
     console.log('[SW] 激活成功!')
     // 立即管理页面
     await self.clients.claim();
@@ -68,25 +108,31 @@ function handleRequest(req) {
     // let urlObj = new URL(urlStr)
 
     // 匹配请求
-    // 遍历配置
-    全局配置.map((config) => {
-        // 正则匹配url
-        if (config['rule'].test(urlStr)) {
-            config['transform_rules'].map((transform_rule) => {
-                if (transform_rule['search'] == '_') {
-                    transform_rule['search'] = config['rule'];
+    if (configs['cdn']) {
+        for (let config of configs['cdn']) {
+            // 正则匹配url
+            if (config['rule'].test(urlStr)) {
+                let rule_search = config['search'] || config['rule']; // 当search字段不存在时设置默认值
+                if (rule_search == '_') {
+                    // 当为语法糖时重新赋值为rule
+                    rule_search = config['rule'];
                 };
-                transform_rule['replace'].map((replace) => {
-                // 替换url
-                    if (replace == '_') {
-                        replace = urlStr;
+                // 遍历替换
+                for (let search_replace of config['replace']) {
+                    let push_url_str
+                    if (search_replace == '_') {
+                        // 当为语法糖时重新赋值
+                        push_url_str = urlStr;
+                    } else {
+                        push_url_str = urlStr.replace(rule_search, search_replace)
                     };
-                    // 把替换成的url加入进数组
-                    urls.push(urlStr.replace(transform_rule['search'], replace));
-                });
-            });
+                    urls.push(push_url_str);
+                };
+            };
         };
-    });
+    } else {
+        console.warn('[SW] 警告: 配置未包含cdn配置项!');
+    };
 
     // 如果上方 cdn 遍历 匹配到 cdn 则直接统一发送请求(不会往下执行了)
     if (urls.length) return fetchAny(urls)
